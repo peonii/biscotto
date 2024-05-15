@@ -1,7 +1,7 @@
 ////
-//// Macaroon
+//// Biscotto
 ////
-//// Macaroon is a Gleam library to store and manage cookies with a jar.
+//// Biscotto is a Gleam library to store and manage cookies with a jar.
 ////
 
 import gleam/dict.{type Dict}
@@ -30,7 +30,7 @@ pub type CookieJar {
 /// Create a new cookie jar.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 /// ```
 pub fn init() -> CookieJar {
   CookieJar(cookies: dict.new())
@@ -39,12 +39,12 @@ pub fn init() -> CookieJar {
 /// Get all cookies from a jar.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 ///
 /// // Do something with the jar
 ///
 /// let first_cookie = jar
-/// |> macaroon.peek
+/// |> biscotto.peek
 /// |> list.first
 /// ```
 pub fn peek(jar: CookieJar) -> List(Cookie) {
@@ -55,11 +55,11 @@ pub fn peek(jar: CookieJar) -> List(Cookie) {
 /// Get a specific cookie from the jar, by its name.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 ///
 /// // Do something with the jar
 ///
-/// let cookie = jar |> macaroon.get("my_cookie")
+/// let cookie = jar |> biscotto.get("my_cookie")
 /// ```
 pub fn get(jar: CookieJar, key: String) -> Result(Cookie, Nil) {
   jar.cookies
@@ -128,7 +128,7 @@ fn cookie_from_list(cookie: List(#(String, String))) -> Result(Cookie, Nil) {
 /// Add a cookie to the jar.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 ///
 /// let cookie = [
 ///  #("name", "value"),
@@ -136,7 +136,7 @@ fn cookie_from_list(cookie: List(#(String, String))) -> Result(Cookie, Nil) {
 ///  #("path", "/")
 /// ]
 ///
-/// let jar = macaroon.put(jar, cookie)
+/// let jar = biscotto.put(jar, cookie)
 pub fn put(jar: CookieJar, cookie: List(#(String, String))) -> CookieJar {
   case cookie_from_list(cookie) {
     Ok(cookie) -> {
@@ -154,11 +154,11 @@ pub fn put(jar: CookieJar, cookie: List(#(String, String))) -> CookieJar {
 /// Remove a cookie from the jar.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 ///
-/// let jar = macaroon.remove(jar, "my_cookie")
+/// let jar = biscotto.remove(jar, "my_cookie")
 ///
-/// let assert Error(_) = jar |> macaroon.get("my_cookie")
+/// let assert Error(_) = jar |> biscotto.get("my_cookie")
 /// ```
 pub fn remove(jar: CookieJar, key: String) -> CookieJar {
   CookieJar(
@@ -170,13 +170,13 @@ pub fn remove(jar: CookieJar, key: String) -> CookieJar {
 /// Parse cookies from a response and add them to a jar.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 ///
 /// // Perform a request
 /// use response <- result.try(httpc.send(req))
 ///
 /// let jar = jar
-/// |> macaroon.from_response(response)
+/// |> biscotto.from_response(response)
 /// ```
 pub fn from_response(jar: CookieJar, resp: Response(a)) -> CookieJar {
   let response.Response(headers: headers, ..) = resp
@@ -206,11 +206,11 @@ pub fn from_response(jar: CookieJar, resp: Response(a)) -> CookieJar {
 /// Add cookies to a request.
 ///
 /// ```gleam
-/// let jar = macaroon.init()
+/// let jar = biscotto.init()
 ///
 /// let assert Ok(req) = request.to("https://example.com")
 ///
-/// let req = macaroon.with_cookies(req, jar)
+/// let req = biscotto.with_cookies(req, jar)
 /// ```
 pub fn with_cookies(req: Request(a), jar: CookieJar) -> Request(a) {
   jar.cookies
